@@ -16,6 +16,7 @@ exports.registerValidator = [
     .custom(async (val) => {
       const user = await User.findOne({ email: val });
       if (user) {
+        console.log(`Registration attempt with existing email: ${val}`);
         return Promise.reject(new Error("Email already in use"));
       }
     }),
@@ -49,6 +50,10 @@ exports.updateMeValidator = [
     .custom(async (val, { req }) => {
       const user = await User.findOne({ email: val });
       if (user && user._id.toString() !== req.user._id.toString()) {
+        // Log the error message for the update operation as well
+        console.log(
+          `Update attempt with existing email: ${val} by user ID: ${req.user._id}`
+        );
         return Promise.reject(new Error("Email already in use"));
       }
     }),

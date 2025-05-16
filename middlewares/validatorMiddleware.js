@@ -4,7 +4,9 @@ const ApiError = require("../utils/apiError");
 const validatorMiddleware = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(new ApiError("Validation error", 400, errors.array()));
+    // Check if it's a custom error message (like "Email already in use")
+    const errorMsg = errors.array()[0].msg || "Validation error";
+    return next(new ApiError(errorMsg, 400));
   }
   next();
 };

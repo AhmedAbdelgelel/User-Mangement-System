@@ -1,12 +1,9 @@
 // global error handler
-const ApiError = require("../utils/apiError");
 
 const globalError = (err, req, res, next) => {
   res.status(err.statusCode).json({
     status: err.status,
     message: err.message,
-    stack: err.stack,
-    error: err,
   });
   if (err.msg === "JsonWebTokenError") {
     res.status(401).json({

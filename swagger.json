@@ -40,13 +40,26 @@
                         }
                     }
                 },
-                "responses": {
-                    "201": {
+                "responses": { "201": {
                         "description": "User successfully registered",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created successfully"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "user@example.com"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -623,10 +636,9 @@
         }
     },
     "components": {
-        "schemas": {
-            "RegisterRequest": {
+        "schemas": { "RegisterRequest": {
                 "type": "object",
-                "required": [ "name", "email", "password", "passwordConfirm" ],
+                "required": [ "name", "email", "password" ],
                 "properties": {
                     "name": {
                         "type": "string",
@@ -638,11 +650,6 @@
                         "example": "user@example.com"
                     },
                     "password": {
-                        "type": "string",
-                        "format": "password",
-                        "example": "Password123"
-                    },
-                    "passwordConfirm": {
                         "type": "string",
                         "format": "password",
                         "example": "Password123"
@@ -678,10 +685,9 @@
                         "example": "johnsmith@example.com"
                     }
                 }
-            },
-            "CreateUserRequest": {
+            }, "CreateUserRequest": {
                 "type": "object",
-                "required": [ "name", "email", "password", "passwordConfirm", "role" ],
+                "required": [ "name", "email", "password", "role" ],
                 "properties": {
                     "name": {
                         "type": "string",
@@ -693,11 +699,6 @@
                         "example": "jane@example.com"
                     },
                     "password": {
-                        "type": "string",
-                        "format": "password",
-                        "example": "Password123"
-                    },
-                    "passwordConfirm": {
                         "type": "string",
                         "format": "password",
                         "example": "Password123"
@@ -727,29 +728,24 @@
                         "example": "admin"
                     }
                 }
-            },
-            "AuthResponse": {
+            }, "AuthResponse": {
                 "type": "object",
                 "properties": {
-                    "status": {
+                    "message": {
                         "type": "string",
-                        "example": "success"
+                        "example": "Login successful"
                     },
                     "token": {
                         "type": "string",
                         "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                    },
-                    "data": {
-                        "$ref": "#/components/schemas/User"
                     }
                 }
-            },
-            "UserResponse": {
+            }, "UserResponse": {
                 "type": "object",
                 "properties": {
-                    "status": {
+                    "message": {
                         "type": "string",
-                        "example": "success"
+                        "example": "User retrieved successfully"
                     },
                     "data": {
                         "$ref": "#/components/schemas/User"
@@ -791,21 +787,12 @@
                         "example": "2023-05-16T10:00:00.000Z"
                     }
                 }
-            },
-            "Error": {
+            }, "Error": {
                 "type": "object",
                 "properties": {
-                    "status": {
-                        "type": "string",
-                        "example": "error"
-                    },
                     "message": {
                         "type": "string",
                         "example": "Error message description"
-                    },
-                    "stack": {
-                        "type": "string",
-                        "example": "Error: Error message description\n    at ..."
                     }
                 }
             }

@@ -3,6 +3,7 @@ require("dotenv").config();
 const connectDB = require("./db/connect");
 const mountRoutes = require("./routes/mountRoutes");
 const globalErrorHandler = require("./middlewares/globalError");
+const morgan = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const fs = require("fs");
 
@@ -13,6 +14,10 @@ const app = express();
 
 app.use(express.json());
 
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+  console.log(`mode: ${process.env.NODE_ENV}`);
+}
 mountRoutes(app);
 
 app.use(
